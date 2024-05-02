@@ -27,7 +27,7 @@ s3_client = boto3.client('s3',aws_access_key_id=config('AWS_ACCESS_KEY_ID'),
                                      aws_secret_access_key=config('AWS_SECRET_ACCESS_KEY'),
                                      region_name='eu-north-1')
 #Download LivingLabs Dataset
-response = s3_client.get_object(Bucket='cf606a65-feb0-4ce2-8874-3019f5724e90', Key="iclimabuilt_all.csv")
+response = s3_client.get_object(Bucket=config('S3_BUCKET_NAME'), Key="iclimabuilt_all.csv")
 status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
 if status == 200:
     lldf = pd.read_csv(response.get("Body"))
@@ -38,7 +38,7 @@ else:
     print(f"Unsuccessful S3 get_object response. Status - {status}")
 
 #Download TEG Dataset
-response = s3_client.get_object(Bucket='cf606a65-feb0-4ce2-8874-3019f5724e90', Key="teg_data.csv")
+response = s3_client.get_object(Bucket=config('S3_BUCKET_NAME'), Key="teg_data.csv")
 status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
 if status == 200:
     tegdf = pd.read_csv(response.get("Body"))
